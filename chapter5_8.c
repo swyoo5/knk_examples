@@ -26,31 +26,23 @@ int main(void)
 	scanf("%d:%d",&hour,&minute);
 	
 	int convert_time = hour * 60 + minute;
-	a1 = convert_time-a1; 
-	a2 = convert_time-a2;
-	a3 = convert_time-a3;
-	a4 = convert_time-a4;
-	a5 = convert_time-a5;
-	a6 = convert_time-a6;
-	a7 = convert_time-a7;
-	a8 = convert_time-a8;
 	
-	if (a8>=0){
-		printf("Closest departure time is 9:45pm\n");
-	}if (a7>=0&&0>=a6){
-		printf("Closest departure time is 7:00pm\n");
-	}if (a6>=0&&0>=a5){
-		printf("Closest departure time is 3:45pm\n");
-	}if (a5>=0&&0>=a4){
-		printf("Closest departure time is 2:00pm\n");
-	}if (a4>=0&&0>=a3){
-		printf("Closest departure time is 12:47pm\n");
-	}if (a3>=0&&0>=a2){
-		printf("Closest departure time is 11:19am\n");
-	}if (a2>=0&&0>=a1){
+	if (convert_time < (a1+a2)/2){
+		printf("Closest departure time is 8:00am\n");
+	}else if (convert_time < (a2+a3)/2){
 		printf("Closest departure time is 9:43am\n");
-	}if (a1>=0){
-		printf("Closest departure time is 8:00am\n"); 
+	}else if (convert_time < (a3+a4)/2){
+		printf("Closest departure time is 11:19am\n");
+	}else if (convert_time < (a4+a5)/2){
+		printf("Closest departure time is 12:47pm\n");
+	}else if (convert_time < (a5+a6)/2){
+		printf("Closest departure time is 2:00pm\n");
+	}else if (convert_time < (a6+a7)/2){
+		printf("Closest departure time is 3:45pm\n");
+	}else if (convert_time < (a7+a8)/2){
+		printf("Closest departure time is 7:00pm\n");
+	}else{
+		printf("Closest departure time is 9:45pm\n"); 
 	}	
 	return 0;
 }
