@@ -6,83 +6,93 @@
 #define RANK_NUM 13
 #define SUIT_NUM 4
 
+void read_card(void);
 
-int rank_arr[RANK_NUM] = {0}, suit_arr[SUIT_NUM] = {0}, pair = 0;	
-bool three = false, four = false, flush = false, straight = false;
+int occupied_rank[RANK_NUM] = {0}, occupied_suit[SUIT_NUM] = {0}, pair = 0, three = 0, four = 0, flush = 0, straight = 0;
+bool in_hand[RANK_NUM][SUIT_NUM] = {false};	
+
+void read_card(void);
+void classify_card(void);
+void print_result(void);
+void clear_array(void);
 
 int main(void)
 {
-
-	void read_card(void);
-	void classify_card(void);
-	void print_result(void);
-
 	read_card();
-	classify_card();
-	print_result();
 
 	return 0;
 }
 
 void read_card(void)
 {
-	int i, j, k, rank;
-	char suit;
+	int i, rank_index, suit_index, card_count, bad_card;
+	char suit, rank;
 
-
-	for (i = 0; i < 5; i++){
-	printf("Enter a card : ");
-		while (1){
-			scanf("%d%c", &rank, &suit);
+	while (1){
+		clear_array();
+		card_count = 5;
+		while (card_count > 0){
+			printf("Enter a card : ");
+			scanf(" %c%c", &rank, &suit);
 			rank = toupper(rank);
 			suit = toupper(suit);
 
 			switch(rank){
-			case 2: case 3: case 4: case 5: 
-			case 6: case 7: case 8: case 9:
-			rank_arr[rank-2]++;
-			break;
-
-			case 'T': rank_arr[8]++; break;
-
-			case 'J': rank_arr[9]++; break;
-
-			case 'Q': rank_arr[10]++; break;
-
-			case 'K': rank_arr[11]++; break;
-			
-			case 'A': rank_arr[12]++; break;
-
+			case '0': exit(EXIT_SUCCESS);
+			case '2': rank_index = 0; break;
+			case '3': rank_index = 1; break;
+			case '4': rank_index = 2; break;
+			case '5': rank_index = 3; break;
+			case '6': rank_index = 4; break;
+			case '7': rank_index = 5; break;
+			case '8': rank_index = 6; break;
+			case '9': rank_index = 7; break;
+			case 'T': rank_index = 8; break;
+			case 'J': rank_index = 9; break;
+			case 'Q': rank_index = 10; break;
+			case 'K': rank_index = 11; break;
+			case 'A': rank_index = 12; break;
 			default :
-				printf("Bad card; ignored.");
+				bad_card = 1;
 				break;
 			}
 
 			switch(suit){
-			case 'C': suit_arr[0]++; break;
-			
-			case 'D': suit_arr[1]++; break;
-
-			case 'H': suit_arr[2]++; break;
-
-			case 'S': suit_arr[3]++; break;
-
+			case 'C': suit_index = 0; break;
+			case 'D': suit_index = 1; break;
+			case 'H': suit_index = 2; break;
+			case 'S': suit_index = 3; break;
 			default :
-				printf("Bad card; ignored.");
+				bad_card = 1;	
 				break;
 			}
 
-			for (j = 0; j < RANK_NUM; j++){
-				for (k = 0; k < SUIT_NUM; k++){
-					if (((rank_arr[j] == 2) && (suit_arr[k] == 2))){
-						printf("Duplicate card; ignored.");
-						rank_arr[j]--;
-						suit_arr[j]--;
-						continue;
-					}
-				}	
+			if (bad_card == 1){
+				printf("Bad card; ignored\n");
+				bad_card = 0;
+			}else if (in_hand[rank_index][suit_index]){
+				printf("Duplicate card; ignored\n");
+			}else{
+				occupied_rank[rank_index] += 1;
+				occupied_suit[suit_index] += 1;
+				in_hand[rank_index][suit_index] = true;
+				card_count--;
 			}	
-			break;
+		}
+
+		classify_card();
+		print_result();
+	}
+}
+
+void clear_array(void)
+{
+	int i, j;
+	for (i = 0; i < RANK_NUM; i++){
+		occupied_rank[i] = 0;	
+		for (j = 0; j < SUIT_NUM; j++){
+			occupied_rank[j] = 0;
+			in_hand[i][j] = false;	
 		}
 	}
 }
@@ -90,26 +100,28 @@ void read_card(void)
 void classify_card(void)
 {
 	int i;
-		
-	for (i = 0; i < RANK_NUM; i++){
-		if (rank_arr[i]	== 2){
-			pair++;	
-		}if (rank_arr[i] == 3){
-			three = true;
-		}if (rank_arr[i] == 4){
-			four = true;
-		}
-	}
+
+	pair = 0;
+	three = 0;
+	four = 0;
+	flush = 0;
+	straight = 0;
 	
-	for (i = 0; i < RANK_NUM-4; i++){
-		if (rank_arr[i] == 1 && rank_arr[i+1] == 1 && rank_arr[i+2] == 1 && rank_arr[i+3] == 1 && rank_arr[i+4] == 1){
-			straight = true;
+	for (i = 0; i < RANK_NUM; i++){
+		if (occupied_rank[i] == 2){
+			pair++;	
+		}else if (occupied_rank[i] == 3){
+			three = 1;
+		}else if (occupied_rank[i] == 4){
+			four = 1;
+		}else if (occupied_rank[i] == 1 && occupied_rank[i+1] == 1 && occupied_rank[i+2] == 1 && occupied_rank[i+3] == 1 && occupied_rank[i+4] == 1){
+			straight = 1;
 		}
 	}
 
 	for (i = 0; i < SUIT_NUM; i++){
-		if (suit_arr[i] == 5){
-			flush = true;
+		if (occupied_suit[i] == 5){
+			flush = 1;
 		}
 	}
 }
@@ -135,6 +147,5 @@ void print_result(void)
 	}else{
 		printf("High card\n");
 	}
-
-	return;
+	printf("\n");
 }
