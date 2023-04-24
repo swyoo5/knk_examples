@@ -1,0 +1,5 @@
+Explain what effect the following macro has on its arguments. You may assume that the arguments have the same type.
+#define M(x,y) ((x) ^= (y), (y) ^= (x), (x) ^= (y))
+
+두 값의 자리를 바꾸는 역할을 한다.
+temp 변수를 이용한 교체보단 메모리가 4byte 덜들지만, 두 변수가 같은 기억장소를 가리킬 경우, 제대로 동작하지 않고, 가독성이 좋지 않고, 컴파일러 수준에서 최적화가 진행되기 때문에 temp 방법이 더 빠르다.

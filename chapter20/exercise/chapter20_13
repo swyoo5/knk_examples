@@ -1,0 +1,4 @@
+If n is an unsigned int variable, what effect does the following statement have on the bits in n?
+n &= n - 1;
+
+Exercise 9에서 쓰인것 처럼, 가장 오른쪽의 1인 비트를 0으로 만든다. 그리고 계속 실행하면 n은 0이된다.

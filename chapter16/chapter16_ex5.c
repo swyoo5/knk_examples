@@ -28,7 +28,7 @@ int day_of_year(struct date d)
 }
 
 // (b)
-int compare_dates(struct date d1, struct date d1)
+int compare_dates(struct date d1, struct date d2)
 {
 	int d1_day = day_of_year(d1);
 	int d2_day = day_of_year(d2);

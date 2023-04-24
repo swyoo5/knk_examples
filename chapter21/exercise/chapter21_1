@@ -1,0 +1,5 @@
+Locate where header files are kept on your system. Find the nonstandard headers and determine the purpose of each.
+
+/usr/include, /usr/lib/gcc/x86_64-linux-gnu/11/include 에 저장돼있음.
+자세한 헤더파일 명은 chapter21_1.txt 참조
+

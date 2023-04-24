@@ -1,0 +1,12 @@
+Let f be the following function :
+unsigned int f(unsigned int i, int m, int n)
+{
+	return (i >> (m + 1 - n)) & ~(~0 << n);
+}
+(a) What is the value of ~(~0 << n)?
+
+오른쪽에서 n번째 숫자까지는 1이고, 나머지숫자는 0
+
+(b) What does this function do?
+
+i의 m번째 비트부터 n개의 비트를 추출한다.

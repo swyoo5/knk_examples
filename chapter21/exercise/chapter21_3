@@ -1,0 +1,3 @@
+When a macro hides a function, which must come first in the header file : the macro definition or the function prototype? Justify your answer.
+
+

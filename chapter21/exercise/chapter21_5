@@ -1,0 +1,4 @@
+The islower function, which belongs to <ctype.h>, tests whether a character is a lower-case letter. Why would the following macro version of islower not be legal, according to the C standard?
+#define islower(c) ((c) >= 'a' && (c) <= 'z')
+
+Parameterized macro 정의에서 parameter은 한번만 평가(evaluate)돼야 하지만, 해당 매크로에서는 두번 평가됐으므로 illegal
